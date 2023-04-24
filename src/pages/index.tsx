@@ -6,9 +6,12 @@ import Head from "next/head";
 import { api } from "~/utils/api";
 
 const Home: NextPage = () => {
-  const hello = api.example.hello.useQuery({ text: "from tRPC" });
+  // const hello = api.example.hello.useQuery({ text: "from tRPC" });
 
   const user = useUser();
+
+  const { data } = api.posts.getAll.useQuery(); // Edge Function run on Vercel
+
   return (
     <>
       <Head>
@@ -20,6 +23,9 @@ const Home: NextPage = () => {
         <div>
           {!user.isSignedIn && <SignInButton />}
           {user.isSignedIn && <SignOutButton />}
+        </div>
+        <div className="data-inbound">
+          {data?.map((post) => (<div key={post.id}>{post.content}</div>))}
         </div>
       </main>
     </>
