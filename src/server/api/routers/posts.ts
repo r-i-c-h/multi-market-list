@@ -26,8 +26,6 @@ export const postsRouter = createTRPCRouter({
       limit: 100
     })).map(filterUserForClient)
 
-    // console.log({ users });
-
     return posts.map((post) => {
       const author = users.find(user => user.id === post.authorId);
       if (!author || !author.username) { // force username check to be a string @TS
