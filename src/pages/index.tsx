@@ -1,22 +1,23 @@
 import { SignInButton, SignOutButton, useUser } from "@clerk/nextjs";
 import Head from "next/head";
+import Image from "next/image";
 import { api } from "~/utils/api";
 import { type RouterOutputs } from "~/utils/api";
 import { type NextPage } from "next";
-import Head from "next/head";
-// import Link from "next/link";
 
 import dayjs from "dayjs"; // For Time since last msg.
 import relativeTime from "dayjs/plugin/relativeTime";
 dayjs.extend(relativeTime) // req'd by lib
+
 
 const CreatePostWizard = () => {
   const { user } = useUser();
   if (!user) return null;
   return (
     <div className="flex gap-3 w-full">
-      <img src={user.profileImageUrl} alt="profile image"
+      <Image src={user.profileImageUrl} alt="profile image"
         className="h-16 w-16 rounded-full"
+        width="64" height="64"
       />
       <input placeholder="An Input placeholder"
         className="grow bg-transparent outline-none"
@@ -39,8 +40,9 @@ const PostView = (props: PostWithUser) => {
 
   return (
     <div key={post.id} className="flex gap-3 border-b border-slate-400 p-4 ">
-      <img src={author.profileImageUrl} alt="profile picture"
+      <Image src={author.profileImageUrl} alt="profile picture"
         className="h-12 w-12 rounded-full justify-items-center"
+        width="64" height="64"
       />
       <div className="flex flex-col ">
         <div className="flex text-slate-300">
