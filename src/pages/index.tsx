@@ -6,7 +6,9 @@ import { type NextPage } from "next";
 import Head from "next/head";
 // import Link from "next/link";
 
-import { type RouterOutputs, api } from "~/utils/api";
+import dayjs from "dayjs"; // For Time since last msg.
+import relativeTime from "dayjs/plugin/relativeTime";
+dayjs.extend(relativeTime) // req'd by lib
 
 const CreatePostWizard = () => {
   const { user } = useUser();
@@ -33,7 +35,7 @@ const PostView = (props: PostWithUser) => {
   if (!user) return null;
 
   const { post, author } = props;
-  const when = post.createdAt.toLocaleDateString();
+  const timeAgo = dayjs(post.createdAt).fromNow();
 
   return (
     <div key={post.id} className="flex gap-3 border-b border-slate-400 p-4 ">
@@ -42,7 +44,7 @@ const PostView = (props: PostWithUser) => {
       />
       <div className="flex flex-col ">
         <div className="flex text-slate-300">
-          <span>@{author.username}</span> &nbsp; &bull; &nbsp; <span className="font-thin">{when}</span>
+          <span>@{author.username}</span> &nbsp; &bull; &nbsp; <span className="font-thin">{timeAgo}</span>
         </div>
         <div className="post-text">
           <span>{post.content}</span>
